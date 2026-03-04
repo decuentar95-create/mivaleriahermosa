@@ -2,52 +2,47 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Romántico para Valeria 💕</title>
 <style>
+/* ===== Base ===== */
 html { scroll-behavior: smooth; }
-body { margin:0; padding:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:white; text-align:center; overflow-x:hidden; background: linear-gradient(135deg,#ff758c,#ff7eb3); transition: background 2s ease; }
+body { margin:0; padding:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:white; text-align:center; overflow-x:hidden; background: linear-gradient(135deg,#ff758c,#ff7eb3); transition: background 2s ease; font-size:16px; }
 canvas { position:absolute; top:0; left:0; z-index:-1; }
 
-.section { padding:80px 20px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-shadow: 1px 1px 3px #ff4b6e; }
+/* ===== Secciones ===== */
+.section { padding:60px 10px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-shadow: 1px 1px 3px #ff4b6e; box-sizing:border-box; }
 
-input, button { padding:12px 20px; border:none; border-radius:25px; margin-top:10px; font-size:16px; }
+/* ===== Inputs y Botones ===== */
+input, button { padding:12px 20px; border:none; border-radius:25px; margin-top:10px; font-size:16px; width:90%; max-width:300px; box-sizing:border-box; }
 button { background:#ff4b6e; color:white; cursor:pointer; transition:0.3s; }
 button:hover { background:#ff7eb3; transform: scale(1.05); }
+input:focus { outline:none; border:2px solid #ffbb00; }
 
-#galeria img {
-    width:200px;
-    border-radius:15px;
-    margin:10px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.4);
-    transition:0.3s;
-}
+/* ===== Galería ===== */
+#galeria { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; }
+#galeria img { width:45%; max-width:150px; border-radius:15px; margin:5px; box-shadow:0 5px 20px rgba(0,0,0,0.4); transition:0.3s; }
 #galeria img:hover { transform: scale(1.1); }
 
-#carta {
-    max-width:600px;
-    margin:auto;
-    font-size:1.3em;
-    white-space:pre-line;
-    padding:30px;
-    background: rgba(0,0,0,0.4);
-    border-radius:20px;
-    border: 2px solid #ff7eb3;
-    text-shadow: 2px 2px 4px #000;
-    box-shadow: 0 0 15px rgba(255,255,255,0.2);
-}
+/* ===== Carta ===== */
+#carta { max-width:600px; margin:auto; font-size:1.3em; white-space:pre-line; padding:30px; background: rgba(0,0,0,0.4); border-radius:20px; border: 2px solid #ff7eb3; text-shadow: 2px 2px 4px #000; box-shadow: 0 0 15px rgba(255,255,255,0.2); }
 
+/* ===== Partículas y Animaciones ===== */
 .corazon, .confeti, .nieve, .cursorParticula, .miniFoto { position:absolute; pointer-events:none; user-select:none; z-index:10; text-shadow: 0 0 5px #fff, 0 0 10px #ff4b6e, 0 0 15px #ff7eb3; }
+.miniFoto { width:80px; height:auto; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5); }
 
-.miniFoto {
-    width:80px;
-    height:auto;
-    border-radius:10px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.5);
-}
-
-nav { position:fixed; top:0; left:0; width:100%; background: rgba(255,75,110,0.6); display:flex; justify-content:center; gap:20px; padding:10px 0; z-index:20; border-bottom:1px solid #fff; }
-nav a { color:white; font-weight:bold; text-decoration:none; transition:0.3s; }
+/* ===== Navegación ===== */
+nav { position:fixed; top:0; left:0; width:100%; background: rgba(255,75,110,0.6); display:flex; justify-content:center; flex-wrap:wrap; gap:10px; padding:10px 0; z-index:20; border-bottom:1px solid #fff; }
+nav a { color:white; font-weight:bold; text-decoration:none; transition:0.3s; font-size:14px; }
 nav a:hover { color:#ffbb00; }
+
+/* ===== Media Queries ===== */
+@media (min-width: 768px) {
+    #galeria img { width: 22%; max-width:200px; } /* más grande en computadoras */
+    .section { padding:80px 40px; }
+    input, button { width: 300px; }
+    #carta { font-size:1.5em; padding:40px; }
+}
 </style>
 </head>
 <body>
@@ -64,7 +59,7 @@ nav a:hover { color:#ffbb00; }
 <div class="section" id="login">
 <h1>🔒 Área exclusiva para Valeria</h1>
 <p>Ingresa la palabra secreta 💌</p>
-<input type="password" id="password"><br>
+<input type="password" id="password" placeholder="Palabra secreta"><br>
 <button onclick="verificar()">Entrar</button>
 </div>
 
@@ -91,26 +86,20 @@ nav a:hover { color:#ffbb00; }
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
 let player;
-let musicaAutorizada = false; // el usuario autorizó la música
+let musicaAutorizada = false;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         height: '0', width: '0',
         videoId: 'xeaV26R3ifw',
         playerVars: { 'autoplay': 0, 'loop': 1, 'playlist':'xeaV26R3ifw' },
-        events: {
-            'onReady': (e) => {
-                // reproducir si el usuario ya hizo clic
-                if(musicaAutorizada) e.target.playVideo();
-            }
-        }
+        events: { 'onReady': (e) => { if(musicaAutorizada) e.target.playVideo(); } }
     });
 }
 
 const fechaInicio = new Date("2026-01-08T00:00:00");
 const clave = "teamo";
 
-// LOGIN
 function verificar(){
     const pass = document.getElementById("password").value;
     if(pass===clave){
@@ -119,8 +108,6 @@ function verificar(){
         document.getElementById("juegoSection").classList.remove("hidden");
         document.getElementById("login").style.display="none";
         iniciarTodo();
-
-        // usuario hizo clic: desbloquea audio
         musicaAutorizada = true;
         if(player && typeof player.playVideo === "function") player.playVideo();
     } else alert("Esa no es la palabra secreta 💔");
@@ -134,10 +121,10 @@ function iniciarTodo(){
     initGalaxia();
     animaciones();
     document.addEventListener("mousemove", particulasCursorThrottled);
+    document.addEventListener("touchstart", particulasCursorThrottled);
     iniciarMiniJuego();
 }
 
-// CONTADOR
 function actualizarContador(){
     const diff = new Date() - fechaInicio;
     const dias=Math.floor(diff/(1000*60*60*24));
@@ -169,10 +156,7 @@ function guardarFotoLocal(dataURL){
 
 function cargarFotosGuardadas(){
     let fotos = JSON.parse(localStorage.getItem("fotosValeria")) || [];
-    fotos.forEach(f => {
-        mostrarFoto(f);
-        crearMiniFotoParticula(f);
-    });
+    fotos.forEach(f => { mostrarFoto(f); crearMiniFotoParticula(f); });
 }
 
 function mostrarFoto(src){
@@ -186,7 +170,6 @@ function borrarFotos(){
     document.getElementById("galeria").innerHTML = "";
 }
 
-// Partículas flotantes de las fotos
 function crearMiniFotoParticula(src){
     const p = document.createElement("img");
     p.src = src;
@@ -194,14 +177,12 @@ function crearMiniFotoParticula(src){
     p.style.top = window.innerHeight + "px";
     p.style.left = Math.random() * (window.innerWidth - 80) + "px";
     document.body.appendChild(p);
-
     let y = window.innerHeight;
     let velocidad = 0.5 + Math.random() * 1;
     function anim(){
         y -= velocidad;
         p.style.top = y + "px";
-        if(y > -100){ requestAnimationFrame(anim); }
-        else p.remove();
+        if(y > -100){ requestAnimationFrame(anim); } else p.remove();
     }
     anim();
 }
@@ -259,8 +240,10 @@ function particulasCursorThrottled(e){
     const p=document.createElement("div");
     p.className="cursorParticula";
     p.textContent="💖";
-    p.style.left=e.pageX+"px";
-    p.style.top=e.pageY+"px";
+    const x = e.touches ? e.touches[0].pageX : e.pageX;
+    const y = e.touches ? e.touches[0].pageY : e.pageY;
+    p.style.left=x+"px";
+    p.style.top=y+"px";
     p.style.fontSize=(Math.random()*20+10)+"px";
     document.body.appendChild(p);
     setTimeout(()=>p.remove(),800);
@@ -269,8 +252,9 @@ function particulasCursorThrottled(e){
 // GALAXIA DE FONDO
 function initGalaxia(){
     const canvas=document.getElementById("galaxia");
-    canvas.width=window.innerWidth;
-    canvas.height=window.innerHeight;
+    function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
     const ctx=canvas.getContext("2d");
     const estrellas=[];
     for(let i=0;i<200;i++){ 
@@ -306,16 +290,16 @@ function iniciarMiniJuego(){
         corazon.style.top = "-50px";
         seccionJuego.appendChild(corazon);
         corazonesActivos.push(corazon);
-        corazon.animate([{ transform: "translateY(0px)" },{ transform: "translateY(400px)" }], { duration: 4000 + Math.random()*2000, easing: "linear" }).onfinish = ()=>{
-            corazon.remove();
-            corazonesActivos.splice(corazonesActivos.indexOf(corazon),1);
-        };
-        corazon.addEventListener("click", ()=>{
+        const anim = corazon.animate([{ transform: "translateY(0px)" },{ transform: "translateY(400px)" }], { duration: 4000 + Math.random()*2000, easing: "linear" });
+        anim.onfinish = ()=>{ corazon.remove(); corazonesActivos.splice(corazonesActivos.indexOf(corazon),1); };
+        function sumarPunto(){
             puntos++;
             document.getElementById("puntos").textContent = puntos;
             corazon.remove();
             corazonesActivos.splice(corazonesActivos.indexOf(corazon),1);
-        });
+        }
+        corazon.addEventListener("click", sumarPunto);
+        corazon.addEventListener("touchstart", sumarPunto);
     }
     setInterval(crearCorazonInteractivo,1000);
 }
